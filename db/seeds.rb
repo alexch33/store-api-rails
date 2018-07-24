@@ -9,7 +9,7 @@ categories = Category.create([{category: 'First Category'}, {category: 'Second C
 user = User.create({mail: 'lexa288@mail.ru', nick: 'i3po', role: ['admin', 'moderator'], password: 'test'})
 user2 = User.create({mail: Faker::Internet.email, nick: Faker::Name.name, role: ['client'], password: 'test'})
 user3 = User.create({mail: Faker::Internet.email, nick: Faker::Name.name, role: ['client'], password: 'test'})
-10.times do
+30.times do
   Item.create([{
                    user_id: user.id, category: categories.first, title: Faker::Book.title, description: Faker::Lorem.paragraph, price: Faker::Number.between(10, 1000), rating: Faker::Number.between(1, 10)
                },
