@@ -8,13 +8,15 @@ class ItemsController < ApplicationController
     @category = Category.where({category: params[:category_id]}).first
     if page_number && per_page
       @items_category = Item.where({category_id: @category.id}).page(page_number).per(per_page)
+      render json: @items_category.as_json.push(total_pages: @items_category.total_pages)
     elsif
       page_number
       @items_category = Item.where({category_id: @category.id}).page(page_number)
+      render json: @items_category.as_json.push(total_pages: @items_category.total_pages)
     else
       @items_category = Item.where({category_id: @category.id})
+      render json: @items_category.as_json.push(total_pages: 1)
     end
-    render json: @items_category
   end
 
   # GET /category_id/items/1
