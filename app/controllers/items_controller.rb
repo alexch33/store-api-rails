@@ -3,8 +3,17 @@ class ItemsController < ApplicationController
 
   # GET /category_id/items
   def index
+    page_number, per_page = params[:page], params[:per_page]
+
     @category = Category.where({category: params[:category_id]}).first
-    @items_category = Item.where({category_id: @category.id})
+    if page_number && per_page
+      @items_category = Item.where({category_id: @category.id}).page(page_number).per(per_page)
+    elsif
+      page_number
+      @items_category = Item.where({category_id: @category.id}).page(page_number)
+    else
+      @items_category = Item.where({category_id: @category.id})
+    end
     render json: @items_category
   end
 
