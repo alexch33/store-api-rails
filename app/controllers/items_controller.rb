@@ -1,19 +1,31 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :update, :destroy]
+  before_action only: [:show, :update, :destroy]
 
-  # GET /items
+  # GET /category_id/items
   def index
-    @items = Item.all
+    page_number, per_page = params[:page], params[:per_page]
 
-    render json: @items
+    @category = Category.where({category: params[:category_id]}).first
+    if page_number && per_page
+      @items_category = Item.where({category_id: @category.id}).page(page_number).per(per_page)
+      render json: @items_category.as_json.push(total_pages: @items_category.total_pages)
+    elsif
+      page_number
+      @items_category = Item.where({category_id: @category.id}).page(page_number)
+      render json: @items_category.as_json.push(total_pages: @items_category.total_pages)
+    else
+      @items_category = Item.where({category_id: @category.id})
+      render json: @items_category.as_json.push(total_pages: 1)
+    end
   end
 
-  # GET /items/1
+  # GET /category_id/items/1
   def show
-    render json: @item
+    @item_category_index = select_item(params[:category_id], params[:id])
+    render json: @item_category_index
   end
 
-  # POST /items
+  # POST /category_id/items
   def create
     @item = Item.new(item_params)
 
@@ -24,8 +36,9 @@ class ItemsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /items/1
+  # PATCH/PUT /category_id/items/1
   def update
+    @item = select_item(params[:category_id], params[:id])
     if @item.update(item_params)
       render json: @item
     else
@@ -33,19 +46,20 @@ class ItemsController < ApplicationController
     end
   end
 
-  # DELETE /items/1
+  # DELETE /category_id/items/1
   def destroy
+    @item = select_item(params[:category_id], params[:id])
     @item.destroy
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_item
-      @item = Item.find(params[:id])
+    def select_item(category, item_id)
+      @category = Category.where({category: category}).first
+      @items_category_index = Item.where({category_id: @category.id, id: item_id}).first
     end
 
     # Only allow a trusted parameter "white list" through.
     def item_params
-      params.require(:item).permit(:title, :description, :rating, :price)
+      params.require(:item).permit(:title, :description, :rating, :price, :category_id, :user_id)
     end
 end
