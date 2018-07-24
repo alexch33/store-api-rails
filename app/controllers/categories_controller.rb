@@ -4,28 +4,32 @@ class CategoriesController < ApplicationController
   # GET /categories
   def index
     @categories = Category.all
-
     render json: @categories
   end
 
-  # GET /categories/1
+  # GET /categories/category
   def show
+    @category = Category.where({category: params[:category_id]}).first
     render json: @category
   end
 
   # POST /categories
   def create
     @category = Category.new(category_params)
-
-    if @category.save
-      render json: @category, status: :created, location: @category
+    if Category.exists?(@category.category)
+      render status: :category_already_exists
     else
-      render json: @category.errors, status: :unprocessable_entity
+      if @category.save
+        render json: @category, status: :created, location: @category
+      else
+        render json: @category.errors, status: :unprocessable_entity
+      end
     end
   end
 
-  # PATCH/PUT /categories/1
+  # PATCH/PUT /categories/category
   def update
+    @category = Category.where({category: params[:category_id]}).first
     if @category.update(category_params)
       render json: @category
     else
@@ -33,8 +37,9 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # DELETE /categories/1
+  # DELETE /categories/category
   def destroy
+    @category = Category.where({category: params[:category_id]}).first
     @category.destroy
   end
 
