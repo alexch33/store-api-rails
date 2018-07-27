@@ -5,7 +5,7 @@ class Item < ApplicationRecord
 
   def as_json(options = {})
     urls_arr = self.uploads.map {|upload| upload.file.url}
-    options = options.merge({urls: urls_arr})
+    options = options.merge({ urls: urls_arr, category: self.category.category })
     super.as_json.merge(options)
   end
 end
