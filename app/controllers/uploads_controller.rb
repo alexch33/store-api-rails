@@ -9,15 +9,13 @@ class UploadsController < ApplicationController
 
   # GET /uploads/1
   def show
-    p "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
-    p  URI(request.url) + @upload.file.url
-    p "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&"
     render json: @upload
   end
 
   # POST /uploads
   def create
     @upload = Upload.new(upload_params)
+    @upload.item_id = params[:item_id]
 
     if @upload.save
       render json: @upload, status: :created, location: @upload
@@ -48,6 +46,6 @@ class UploadsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def upload_params
-      params.require(:upload).permit(:title, :file)
+      params.require(:upload).permit(:title, :file, :item_id)
     end
 end
