@@ -8,4 +8,8 @@ class Item < ApplicationRecord
     options = options.merge({ urls: urls_arr, category: self.category.category })
     super.as_json.merge(options)
   end
+
+  def owner? (user)
+    user&.id === self.user_id
+  end
 end

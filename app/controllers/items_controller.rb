@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   before_action only: [:show, :update, :destroy]
-
+  before_action :authenticate_user, only: [:update, :destroy, :create]
   # GET /category_id/items
   def index
     page_number, per_page = params[:page], params[:per_page]
@@ -22,7 +22,12 @@ class ItemsController < ApplicationController
   # GET /category_id/items/1
   def show
     @item_category_index = select_item(params[:category_id], params[:id])
-    render json: @item_category_index
+
+    if @item_category_index.nil?
+      render status: :not_found
+    else
+      render json: @item_category_index
+    end
   end
 
   # POST /category_id/items
@@ -39,17 +44,31 @@ class ItemsController < ApplicationController
   # PATCH/PUT /category_id/items/1
   def update
     @item = select_item(params[:category_id], params[:id])
-    if @item.update(item_params)
-      render json: @item
+    if @item.nil?
+      render status: :not_found
     else
-      render json: @item.errors, status: :unprocessable_entity
+      if @item.owner?(current_user)
+        if @item.update(item_params)
+          render json: @item
+        else
+          render json: @item.errors, status: :unprocessable_entity
+        end
+      else
+        render status: :method_not_allowed
+      end
     end
+
+
   end
 
   # DELETE /category_id/items/1
   def destroy
     @item = select_item(params[:category_id], params[:id])
-    @item.destroy
+    if @item.owner?(current_user)
+      @item.destroy
+    else
+      render status: :method_not_allowed
+    end
   end
 
   private
