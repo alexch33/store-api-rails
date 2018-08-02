@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(version: 2018_07_27_095306) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "mail"
-    t.string "password"
+    t.string "email"
+    t.string "password_digest"
     t.string "role", array: true
     t.string "nick"
     t.datetime "created_at", null: false
