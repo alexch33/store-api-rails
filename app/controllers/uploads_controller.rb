@@ -1,5 +1,6 @@
 class UploadsController < ApplicationController
   before_action :set_upload, only: [:show, :update, :destroy]
+  before_action :authenticate_user, only: [:update, :destroy, :create]
 
   # GET /uploads
   def index
