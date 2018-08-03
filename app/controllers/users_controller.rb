@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
+  before_action :authenticate_user, exept: [:create]
 
   # GET /users
   def index
@@ -11,6 +12,12 @@ class UsersController < ApplicationController
   # GET /users/1
   def show
     render json: @user
+  end
+
+  # POST /users/by_email
+  def show_by_email
+    user = User.where(email: params[:email]).first
+    render json: user.to_json( :only => [:id, :nick, :email, :role] )
   end
 
   # POST /users

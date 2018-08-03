@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   post 'user_token' => 'user_token#create'
+  post 'users/by_email' => 'users#show_by_email'
   resources :uploads
   resources :users
   resources :categories do
