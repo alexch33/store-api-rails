@@ -6,7 +6,9 @@ class ItemsController < ApplicationController
     page_number, per_page = params[:page], params[:per_page]
 
     @category = Category.where({category: params[:category_id]}).first
-    if page_number && per_page
+    if @category.nil?
+      render status: :not_found
+    elsif page_number && per_page
       @items_category = Item.where({category_id: @category.id}).page(page_number).per(per_page)
       render json: @items_category.as_json.push(total_pages: @items_category.total_pages)
     elsif
