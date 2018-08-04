@@ -66,7 +66,7 @@ class ItemsController < ApplicationController
   # DELETE /category_id/items/1
   def destroy
     @item = select_item(params[:category_id], params[:id])
-    if @item.owner?(current_user)
+    if @item.owner?(current_user) || current_user.role.find {|r| /admin|moderator/i =~ r}
       @item.destroy
     else
       render status: :method_not_allowed
