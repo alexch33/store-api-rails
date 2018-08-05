@@ -32,6 +32,7 @@ class ChargesController < ApplicationController
               seller_id: seller_id,
               order_items: [], order_price: 0
           }})
+          price_count = 0
           new_order = Order.new(order_params.require(:order).permit(:client_id, :seller_id, :order_price, order_items: []))
           seller_items.each do |item|
             if item[:id] && item[:price]
@@ -42,9 +43,11 @@ class ChargesController < ApplicationController
                   total_price: item[:totalPrice] || item[:price],
                   item_status: 'CLIENT_PENDING'
               }
-              new_order.order_price += item[:totalPrice].to_f || item[:price].to_f
+              price_count += item[:totalPrice] || item[:price]
             end
           end
+          new_order[:order_price] = price_count
+
           if new_order.save
             # TODO push notification to seller
             p '************************************************************'
