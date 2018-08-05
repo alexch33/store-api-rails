@@ -10,6 +10,6 @@ class Item < ApplicationRecord
   end
 
   def owner? (user)
-    user&.id === self.user_id
+    user && user.id === self.user_id
   end
 end
