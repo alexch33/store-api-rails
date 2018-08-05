@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
   post 'user_token' => 'user_token#create'
   post 'users/by_email' => 'users#show_by_email'
-  get 'orders/seller' => 'orders#show_by_seller_id'
-  get 'orders/client' => 'orders#show_by_client_id'
+  get 'orders/search' => 'orders#search' # must have parametr "for_client=(true or false)"
   resources :charges
   resources :uploads
   resources :users
