@@ -40,10 +40,6 @@ Item.all.each {|item|
                              :item_id => item.id
                          },
                          {
-                             :file => File.new(Rails.root.join('public', 'photo.jpg')),
-                             :item_id => item.id
-                         },
-                         {
                              :file => File.new(Rails.root.join('public', '111.jpg')),
                              :item_id => item.id
                          },

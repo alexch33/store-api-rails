@@ -41,7 +41,8 @@ class ChargesController < ApplicationController
                   price: item[:price],
                   quantity: item[:quantity ] || 1,
                   total_price: item[:totalPrice] || item[:price],
-                  item_status: 'CLIENT_PENDING'
+                  item_status: OrdersController::SELLER_WAITING,
+                  category: item[:category]
               }
               price_count += item[:totalPrice] || item[:price]
             end
