@@ -20,7 +20,9 @@ class Order < ApplicationRecord
          order_updated_at: self[:updated_at],
          order_id: self[:id],
          item_category: item['category'],
-         item_total_amount: item['total_price']
+         item_total_amount: item['total_price'],
+         item_status: item['item_status'],
+         order_status: self[:order_status]
      }
    end
   end
