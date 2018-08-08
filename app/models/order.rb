@@ -19,7 +19,8 @@ class Order < ApplicationRecord
          order_created_at: self[:created_at],
          order_updated_at: self[:updated_at],
          order_id: self[:id],
-         item_category: item['category']
+         item_category: item['category'],
+         item_total_amount: item['total_price']
      }
    end
   end
