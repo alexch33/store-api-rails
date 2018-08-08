@@ -19,6 +19,7 @@ class Order < ApplicationRecord
          order_created_at: self[:created_at],
          order_updated_at: self[:updated_at],
          order_id: self[:id],
+         item_category: item['category']
      }
    end
   end
