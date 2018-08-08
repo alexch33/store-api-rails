@@ -4,6 +4,13 @@ class OrdersController < ApplicationController
   SELLER_WAITING = 'SELLER_WAITING'
   CLIENT_CONFIRMED = 'CLIENT_CONFIRMED'
 
+  # GET order_details/:id
+  def get_order_details
+    order_details = Order.where(id: params[:id]).first.details
+
+    render json: order_details
+  end
+
   # GET /orders/search?for_client=(true|false)&params1=p1&params2=p2&........
   def search
     search_params = params
