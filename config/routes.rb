@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'messages/index'
+  get 'conversations/index'
   post 'user_token' => 'user_token#create'
   post 'users/by_email' => 'users#show_by_email'
   get 'orders/search' => 'orders#search' # must have parametr "for_client=(true or false)"
@@ -9,6 +11,9 @@ Rails.application.routes.draw do
   resources :users
   resources :categories do
     resources :items
+  end
+  resources :conversations, only: [:index, :create] do
+    resources :messages, only: [:index, :create]
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
