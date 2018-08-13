@@ -1,5 +1,6 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show, :update, :destroy]
+  before_action :authenticate_user, only: [:create, :update, :destroy]
 
   # GET /categories
   def index
@@ -16,14 +17,10 @@ class CategoriesController < ApplicationController
   # POST /categories
   def create
     @category = Category.new(category_params)
-    if Category.exists?(@category.category)
-      render status: :category_already_exists
+    if @category.save
+      render json: @category, status: :created, location: @category
     else
-      if @category.save
-        render json: @category, status: :created, location: @category
-      else
-        render json: @category.errors, status: :unprocessable_entity
-      end
+      render json: @category.errors, status: :unprocessable_entity
     end
   end
 
