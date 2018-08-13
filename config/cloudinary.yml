@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: i3po
+  api_key: '924147457432837'
+  api_secret: C4uoniCsqPNGPTkM-Ergm-IGVxM
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: i3po
+  api_key: '924147457432837'
+  api_secret: C4uoniCsqPNGPTkM-Ergm-IGVxM
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: i3po
+  api_key: '924147457432837'
+  api_secret: C4uoniCsqPNGPTkM-Ergm-IGVxM
+  enhance_image_tag: true
+  static_image_support: false
