@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :set_category, only: [:show, :update, :destroy]
+  before_action :set_category, only: [:update, :destroy]
   before_action :authenticate_user, only: [:create, :update, :destroy]
 
   # GET /categories
@@ -10,8 +10,8 @@ class CategoriesController < ApplicationController
 
   # GET /categories/category
   def show
-    @category = Category.where({category: params[:category_id]}).first
-    render json: @category
+    category = Category.where({category: params[:category_id]}).first
+    render json: category
   end
 
   # POST /categories
@@ -26,7 +26,6 @@ class CategoriesController < ApplicationController
 
   # PATCH/PUT /categories/category
   def update
-    @category = Category.where({category: params[:category_id]}).first
     if @category.update(category_params)
       render json: @category
     else
@@ -34,9 +33,8 @@ class CategoriesController < ApplicationController
     end
   end
 
-  # DELETE /categories/category
+  # DELETE /categories/id
   def destroy
-    @category = Category.where({category: params[:category_id]}).first
     @category.destroy
   end
 
