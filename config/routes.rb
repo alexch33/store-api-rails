@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'orders/search' => 'orders#search' # must have parametr "for_client=(true or false)"
   get 'orders/:id/:item_id' => 'orders#order_item_status_update'
   get 'order_details/:id' => 'orders#get_order_details'
+  get 'items/search' => 'items#search'
   resources :charges
   resources :uploads
   resources :users

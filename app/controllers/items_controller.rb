@@ -1,6 +1,5 @@
 class ItemsController < ApplicationController
-  before_action only: [:show, :update, :destroy]
-  before_action :authenticate_user, only: [:update, :destroy, :create]
+  before_action :authenticate_user, only: [:update, :destroy, :create, :search]
   # GET /category_id/items
   def index
     page_number, per_page = params[:page], params[:per_page]
@@ -71,6 +70,11 @@ class ItemsController < ApplicationController
     else
       render status: :method_not_allowed
     end
+  end
+
+  def search
+    items = Item.where(user_id: current_user.id)
+    render json: items
   end
 
   private
