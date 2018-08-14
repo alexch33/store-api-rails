@@ -35,7 +35,7 @@ class CategoriesController < ApplicationController
 
   # DELETE /categories/id
   def destroy
-    @category.destroy
+    @category.destroy if current_user.role.include?("moderator")
   end
 
   private
