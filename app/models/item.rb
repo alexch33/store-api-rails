@@ -1,5 +1,7 @@
 class Item < ApplicationRecord
+  default_scope { order(created_at: :desc) }
   has_many :uploads, dependent: :destroy
+  has_many :comments, dependent: :destroy
   belongs_to :user
   belongs_to :category
 
