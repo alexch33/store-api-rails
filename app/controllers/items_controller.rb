@@ -31,6 +31,13 @@ class ItemsController < ApplicationController
     end
   end
 
+  # GET /items/1
+  def index_show
+    item = Item.where(id: params[:id]).first
+
+    render json: item
+  end
+
   # POST /category_id/items
   def create
     @item = Item.new(item_params)
@@ -44,7 +51,7 @@ class ItemsController < ApplicationController
 
   # PATCH/PUT /category_id/items/1
   def update
-    @item = select_item(params[:category_id], params[:id])
+    @item = Item.where(id: params[:id]).first
     if @item.nil?
       render status: :not_found
     else
