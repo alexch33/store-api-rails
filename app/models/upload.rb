@@ -6,4 +6,9 @@ class Upload < ApplicationRecord
   :cloudinary_credentials => Rails.root.join("config/cloudinary.yml")
 
   validates_attachment_content_type :file, content_type: /\Aimage\/.*\z/
+
+  def url_id
+    id, url = self.id, self.file.url
+    {id: id, url: url}
+  end
 end
