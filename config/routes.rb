@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 'orders/:id/:item_id' => 'orders#order_item_status_update'
   get 'order_details/:id' => 'orders#get_order_details'
   get 'items/search' => 'items#search'
+  get 'uploads/item/:item_id' => 'uploads#index_item_upload'
+
   resources :charges
   resources :comments
   resources :uploads

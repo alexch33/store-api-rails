@@ -2,6 +2,14 @@ class UploadsController < ApplicationController
   before_action :set_upload, only: [:show, :update, :destroy]
   before_action :authenticate_user, only: [:update, :destroy, :create]
 
+
+  # GET uploads/item/:item_id
+  def index_item_upload
+    uploads = Upload.where(item_id: params[:item_id])
+    ids_urls = uploads.map { |upload| upload.url_id }
+    render json: ids_urls
+  end
+
   # GET /uploads
   def index
     @uploads = Upload.all
