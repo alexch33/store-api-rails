@@ -21,12 +21,16 @@ class MessagesController < ApplicationController
     @message.user_id = current_user.id
 
     if @message.save
+      msg_json = @message.as_json
+      ConversationsChannel.broadcast_to(@conversation.receiver, {message: msg_json, type: :object})
+      ConversationsChannel.broadcast_to(@conversation.sender, {message: msg_json, type: :object})
+
       render json: @message
     end
   end
 
   private
   def message_params
-    params.require(:message).permit(:body, :user_id)
+    params.require(:message).permit(:body, :user_id, :conversation_id)
   end
 end
