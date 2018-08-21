@@ -6,7 +6,7 @@ class Item < ApplicationRecord
   belongs_to :category
 
   def as_json(options = {})
-    urls_arr = self.uploads.map {|upload| upload.file.url}
+    urls_arr = self.uploads.map { |upload| upload.file.url.sub('http', 'https') }
     options = options.merge({ urls: urls_arr, category: self.category.category })
     super.as_json.merge(options)
   end
