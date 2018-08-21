@@ -11,11 +11,8 @@ class MessagesController < ApplicationController
     @messages.where("user_id != ? AND read = ?", current_user.id, false).update_all(read: true)
 
     @message = @conversation.messages.new
-    # options = options.merge({ nick: self.user.nick })
-    options = {nick: current_user.nick}
-    msgs_json =  @messages.order(:created_at).as_json options
 
-    render json: msgs_json
+    render json: @messages.order(:created_at)
   end
 
   def create
