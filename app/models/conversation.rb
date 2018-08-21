@@ -20,7 +20,8 @@ class Conversation < ApplicationRecord
   def as_json(options = {})
     reciever_nick = User.where(id: self.receiver_id).first.nick
     sender_nick = User.where(id: self.sender_id).first.nick
-    options = options.merge({ receiver_nick: reciever_nick, sender_nick: sender_nick })
+    unread_count = self.messages.where("user_id != ? AND read = ?", options[:current_user].id, false).count
+    options = options.merge({ receiver_nick: reciever_nick, sender_nick: sender_nick, unread_count: unread_count })
     super.as_json.merge(options)
   end
 

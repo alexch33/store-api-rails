@@ -12,7 +12,9 @@ class ConversationsChannel < ApplicationCable::Channel
 
   def get_users_convs
     conversations = Conversation.where("sender_id = ? OR receiver_id = ?", @current_user.id, @current_user.id)
-    ConversationsChannel.broadcast_to(@current_user, {conversations: conversations, type: :array})
+    options = {current_user: @current_user}
+    convs = conversations.as_json options
+    ConversationsChannel.broadcast_to(@current_user, {conversations: convs, type: :array})
   end
 
   def unsubscribed

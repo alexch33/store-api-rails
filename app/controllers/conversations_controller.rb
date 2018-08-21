@@ -15,7 +15,9 @@ class ConversationsController < ApplicationController
       @conversation = Conversation.create!({sender_id: sener_id, receiver_id: params[:receiver_id]})
     end
 
-    conv_json = @conversation.as_json
+    options = {current_user: current_user}
+    conv_json = @conversation.as_json options
+
     ConversationsChannel.broadcast_to(@conversation.receiver, {conversation: conv_json, type: :object})
     ConversationsChannel.broadcast_to(@conversation.sender, {conversation: conv_json, type: :object})
 
