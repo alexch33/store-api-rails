@@ -17,6 +17,17 @@ class ConversationsChannel < ApplicationCable::Channel
     ConversationsChannel.broadcast_to(@current_user, {conversations: convs, type: :array})
   end
 
+  def set_read_true message
+    message = Message.where(id: message['id']).first
+    unless message.read
+      if message.update(read: true)
+        json_message = message.as_json @current_user.nick
+        ConversationsChannel.broadcast_to(message.conversation.receiver, {message: json_message, type: :object})
+        ConversationsChannel.broadcast_to(message.conversation.sender, {message: json_message, type: :object})
+      end
+    end
+  end
+
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
