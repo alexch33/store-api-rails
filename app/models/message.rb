@@ -6,15 +6,9 @@ class Message < ApplicationRecord
 
   def as_json(options = {})
     if self.id
-      options = options.merge({ nick: self.user.nick , time: message_time })
       super.as_json.merge(options)
     else
       super.as_json({})
     end
-  end
-
-  private
-  def message_time
-    created_at.strftime("%d/%m/%y at %l:%M %p")
   end
 end
