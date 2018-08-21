@@ -12,7 +12,7 @@ class ConversationsChannel < ApplicationCable::Channel
 
   def get_users_convs
     conversations = Conversation.where("sender_id = ? OR receiver_id = ?", @current_user.id, @current_user.id)
-    options = {current_user: @current_user}
+    options = {current_user_id: @current_user.id}
     convs = conversations.as_json options
     ConversationsChannel.broadcast_to(@current_user, {conversations: convs, type: :array})
   end
