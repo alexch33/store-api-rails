@@ -4,6 +4,7 @@ class Item < ApplicationRecord
   has_many :comments, dependent: :destroy
   belongs_to :user
   belongs_to :category
+  validates_presence_of :title, :description, :category_id
 
   def as_json(options = {})
     urls_arr = self.uploads.map { |upload| upload.file.url.sub('http', 'https') }
